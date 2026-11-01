@@ -2,8 +2,9 @@
 
 Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーから書籍を選び、内容紹介を読んで、Stripe決済リンクで購入する導線。
 
-- チャネルID: `2012318867`
-- 問い合わせの転送先ユーザーID: `Ucffac3d11d1a48b011bf29756420c648`（`ADMIN_USER_ID`）
+- チャネルID: `2010816736`
+- ベーシックID: `@473egnpc`（友だち追加用）
+- 問い合わせの転送先ユーザーID: `U07eff7d5cd4929153a1ec149c0a9a8a0`（`ADMIN_USER_ID`）
 
 ## 構成
 | 場所 | 役割 |
@@ -16,7 +17,7 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 
 ## セットアップ（初回のみ）
 1. LINE Developers で上記チャネルの **チャネルシークレット** と **チャネルアクセストークン（長期）** を取得（チャットに貼らず、環境変数／ホスティング側のシークレットに設定）
-2. アカウントは旧「コネクティングドット音楽事務所」を改名して使用（名前変更は済み）。LINE Official Account Manager の応答設定で Webhook オン／あいさつ・応答メッセージ オフ。チャネルID・ユーザーIDが改名後のこのアカウントのものか確認
+2. アカウントは旧「コネクティングドット音楽事務所」を改名して使用（名前変更は済み）。LINE Official Account Manager の応答設定で Webhook オン／あいさつ・応答メッセージ オフ。対象は旧「コネクティングドット音楽事務所」（改名後）のチャネル
 3. `cp .env.example .env` に値を入れ、`npm install`
 4. 公開サーバー（Render / Railway / Fly.io 等）で `npm start`。LINE Developers の Webhook URL に `https://<ドメイン>/webhook` を設定して「検証」
 5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除）
