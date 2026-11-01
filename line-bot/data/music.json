@@ -1,0 +1,12 @@
+{
+  "_note": "音楽作品。urlは公開済みのものを入れる。",
+  "tracks": [
+    {
+      "id": "departure",
+      "title": "Departure",
+      "description": "ピアノ曲を空間・動き・光に変換するメディアアート作品。",
+      "url": "https://weno-29.github.io/media-artwork/",
+      "cover": ""
+    }
+  ]
+}

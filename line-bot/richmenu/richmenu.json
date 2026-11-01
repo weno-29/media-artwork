@@ -1,0 +1,14 @@
+{
+  "size": { "width": 2500, "height": 1686 },
+  "selected": true,
+  "name": "connecting-dots-v1",
+  "chatBarText": "メニュー",
+  "areas": [
+    { "bounds": { "x": 0,    "y": 0,   "width": 833, "height": 843 }, "action": { "type": "postback", "label": "書籍", "data": "action=books", "displayText": "書籍" } },
+    { "bounds": { "x": 833,  "y": 0,   "width": 834, "height": 843 }, "action": { "type": "postback", "label": "音楽", "data": "action=music", "displayText": "音楽" } },
+    { "bounds": { "x": 1667, "y": 0,   "width": 833, "height": 843 }, "action": { "type": "postback", "label": "おすすめ", "data": "action=recommend", "displayText": "おすすめ" } },
+    { "bounds": { "x": 0,    "y": 843, "width": 833, "height": 843 }, "action": { "type": "postback", "label": "購入", "data": "action=buy", "displayText": "購入" } },
+    { "bounds": { "x": 833,  "y": 843, "width": 834, "height": 843 }, "action": { "type": "postback", "label": "Weno-29について", "data": "action=about", "displayText": "Weno-29について" } },
+    { "bounds": { "x": 1667, "y": 843, "width": 833, "height": 843 }, "action": { "type": "postback", "label": "お問い合わせ", "data": "action=contact", "displayText": "お問い合わせ" } }
+  ]
+}

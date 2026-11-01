@@ -1,0 +1,22 @@
+{
+  "_note": "サンプル。title/price/paymentLink/summary等を実データに置き換える。paymentLink が空の書籍は購入ボタンを出さない。",
+  "author": "上野ニッカ",
+  "publisher": "Connecting Dots Publishing",
+  "books": [
+    {
+      "id": "sample-book-1",
+      "title": "（書籍タイトルをここに）",
+      "subtitle": "（サブタイトル）",
+      "price": 0,
+      "currency": "JPY",
+      "cover": "https://example.com/covers/sample-book-1.jpg",
+      "hook": "読者を引き込む問い・意外な事実を1〜2文で。",
+      "summary": "内容紹介（200〜300字）。book:import で原稿から自動生成できる。",
+      "points": ["「へぇ」ポイント1", "「へぇ」ポイント2", "「へぇ」ポイント3"],
+      "sampleUrl": "",
+      "paymentLink": "",
+      "kindleUrl": "",
+      "status": "draft"
+    }
+  ]
+}
