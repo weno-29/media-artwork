@@ -1,14 +1,16 @@
 {
   "size": { "width": 2500, "height": 1686 },
   "selected": true,
-  "name": "connecting-dots-v1",
+  "name": "connecting-dots-v2",
   "chatBarText": "メニュー",
   "areas": [
-    { "bounds": { "x": 0,    "y": 0,   "width": 833, "height": 843 }, "action": { "type": "postback", "label": "書籍", "data": "action=books", "displayText": "書籍" } },
-    { "bounds": { "x": 833,  "y": 0,   "width": 834, "height": 843 }, "action": { "type": "postback", "label": "音楽", "data": "action=music", "displayText": "音楽" } },
-    { "bounds": { "x": 1667, "y": 0,   "width": 833, "height": 843 }, "action": { "type": "postback", "label": "おすすめ", "data": "action=recommend", "displayText": "おすすめ" } },
-    { "bounds": { "x": 0,    "y": 843, "width": 833, "height": 843 }, "action": { "type": "postback", "label": "購入", "data": "action=buy", "displayText": "購入" } },
-    { "bounds": { "x": 833,  "y": 843, "width": 834, "height": 843 }, "action": { "type": "postback", "label": "Weno-29について", "data": "action=about", "displayText": "Weno-29について" } },
-    { "bounds": { "x": 1667, "y": 843, "width": 833, "height": 843 }, "action": { "type": "postback", "label": "お問い合わせ", "data": "action=contact", "displayText": "お問い合わせ" } }
+    { "bounds": { "x": 0,    "y": 0,    "width": 833, "height": 562 }, "action": { "type": "postback", "label": "教養・歴史", "data": "action=cat&c=culture&p=0", "displayText": "教養・歴史" } },
+    { "bounds": { "x": 833,  "y": 0,    "width": 834, "height": 562 }, "action": { "type": "postback", "label": "小説", "data": "action=cat&c=novel&p=0", "displayText": "小説" } },
+    { "bounds": { "x": 1667, "y": 0,    "width": 833, "height": 562 }, "action": { "type": "postback", "label": "資格・試験", "data": "action=cat&c=exam&p=0", "displayText": "資格・試験" } },
+    { "bounds": { "x": 0,    "y": 562,  "width": 833, "height": 562 }, "action": { "type": "postback", "label": "語学", "data": "action=cat&c=lang&p=0", "displayText": "語学" } },
+    { "bounds": { "x": 833,  "y": 562,  "width": 834, "height": 562 }, "action": { "type": "postback", "label": "仕事・実用", "data": "action=cat&c=work&p=0", "displayText": "仕事・実用" } },
+    { "bounds": { "x": 1667, "y": 562,  "width": 833, "height": 562 }, "action": { "type": "postback", "label": "音楽", "data": "action=music", "displayText": "音楽" } },
+    { "bounds": { "x": 0,    "y": 1124, "width": 1250, "height": 562 }, "action": { "type": "postback", "label": "事務所について", "data": "action=about", "displayText": "事務所について" } },
+    { "bounds": { "x": 1250, "y": 1124, "width": 1250, "height": 562 }, "action": { "type": "postback", "label": "お問い合わせ", "data": "action=contact", "displayText": "お問い合わせ" } }
   ]
 }

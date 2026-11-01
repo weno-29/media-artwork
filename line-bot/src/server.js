@@ -11,36 +11,24 @@ if (!config.channelAccessToken || !config.channelSecret) {
   console.error("LINE_CHANNEL_ACCESS_TOKEN / LINE_CHANNEL_SECRET を設定してください");
   process.exit(1);
 }
+// 未設定でも動く。設定すると、自動応答で拾えない問い合わせをこのユーザーIDへ転送する
+const ADMIN_USER_ID = process.env.ADMIN_USER_ID;
 
 const client = new messagingApi.MessagingApiClient({ channelAccessToken: config.channelAccessToken });
 const load = (f) => JSON.parse(readFileSync(new URL(`../data/${f}`, import.meta.url), "utf8"));
-// 再起動なしで更新を反映するため毎回読む（小規模JSONなので十分軽い）
 const books = () => load("books.json").books;
 const tracks = () => load("music.json").tracks;
 
 const withQuick = (m) => ({ ...m, quickReply: F.quickReplies });
 
-function route(key) {
-  switch (key) {
-    case "books": return F.bookCarousel(books(), "detail");
-    case "buy": return F.bookCarousel(books(), "buy");
-    case "music": return F.musicList(tracks());
-    case "recommend": {
-      const pick = books().find((b) => b.status !== "draft");
-      return pick ? F.bookDetail(pick) : F.text("おすすめは準備中です。");
-    }
-    case "about": return F.about();
-    case "contact": return F.contact();
-    default: return null;
-  }
-}
-
 const KEYWORDS = [
-  [/書籍|本|kindle|電子書籍/i, "books"],
-  [/購入|買|決済|stripe/i, "buy"],
-  [/音楽|曲|music|departure/i, "music"],
-  [/おすすめ|オススメ/, "recommend"],
-  [/weno|ウェノ|について|事務所/i, "about"],
+  [/音楽|曲|アルバム|music|departure/i, () => F.musicList(tracks())],
+  [/小説|物語/, () => F.categoryCarousel(books(), "novel")],
+  [/資格|試験|検定|過去問/, () => F.categoryCarousel(books(), "exam")],
+  [/語学|英語|外国語/, () => F.categoryCarousel(books(), "lang")],
+  [/仕事|実用|notion|excel|ai/i, () => F.categoryCarousel(books(), "work")],
+  [/教養|歴史|書籍|本|kindle|おすすめ/i, () => F.categoryCarousel(books(), "culture")],
+  [/weno|ウェノ|について|事務所/i, () => F.about()],
 ];
 
 async function handle(event) {
@@ -48,30 +36,33 @@ async function handle(event) {
     client.replyMessage({ replyToken: event.replyToken, messages: [].concat(messages).map(withQuick) });
 
   if (event.type === "follow") {
-    return reply([
-      F.text("コネクティングドット事務所へようこそ。\nWeno-29（上野ニッカ）の音楽と書籍をお届けします。"),
-      route("books"),
-    ]);
+    return reply([F.text("コネクティングドット事務所へようこそ。\nWeno-29（上野ニッカ）の音楽と書籍をお届けします。\n下のメニューからお選びください。")]);
   }
 
   if (event.type === "postback") {
     const p = new URLSearchParams(event.postback.data);
-    const action = p.get("action");
-    if (action === "book") {
-      const b = books().find((x) => x.id === p.get("id"));
-      return reply(b ? F.bookDetail(b) : F.text("その書籍は見つかりませんでした。"));
+    switch (p.get("action")) {
+      case "cat": return reply(F.categoryCarousel(books(), p.get("c"), Number(p.get("p") || 0)));
+      case "book": {
+        const b = books().find((x) => x.id === p.get("id"));
+        return reply(b ? F.bookDetail(b) : F.text("その書籍は見つかりませんでした。"));
+      }
+      case "music": return reply(F.musicList(tracks()));
+      case "about": return reply(F.about());
+      case "contact": return reply(F.contact());
+      default: return null;
     }
-    const r = route(action);
-    return r ? reply(r) : null;
   }
 
   if (event.type === "message" && event.message.type === "text") {
-    const t = event.message.text;
-    // 書籍タイトル一致 → 詳細
-    const hit = books().find((b) => b.status !== "draft" && t.includes(b.title));
+    const t = event.message.text.trim();
+    const hit = books().find((b) => b.status !== "draft" && t.length >= 3 && b.title.includes(t)) ||
+      books().find((b) => b.status !== "draft" && t.includes(b.title.split(/[\s　｜|—]/)[0]) && b.title.split(/[\s　｜|—]/)[0].length >= 3);
     if (hit) return reply(F.bookDetail(hit));
-    for (const [re, key] of KEYWORDS) if (re.test(t)) return reply(route(key));
-    // 該当なし → 人が読む問い合わせとして扱い、案内のみ返す
+    for (const [re, fn] of KEYWORDS) if (re.test(t)) return reply(fn());
+    if (ADMIN_USER_ID && event.source?.userId) {
+      await client.pushMessage({ to: ADMIN_USER_ID, messages: [F.text(`【問い合わせ】\n${t.slice(0, 1500)}\n(from ${event.source.userId})`)] });
+    }
     return reply(F.text("メッセージありがとうございます。内容を確認して返信します。\n書籍・音楽は下のボタンからどうぞ。"));
   }
   return null;

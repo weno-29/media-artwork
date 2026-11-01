@@ -1,12 +1,68 @@
 {
-  "_note": "音楽作品。urlは公開済みのものを入れる。",
-  "tracks": [
-    {
-      "id": "departure",
-      "title": "Departure",
-      "description": "ピアノ曲を空間・動き・光に変換するメディアアート作品。",
-      "url": "https://weno-29.github.io/media-artwork/",
-      "cover": ""
-    }
-  ]
+ "tracks": [
+  {
+   "id": "music-M07",
+   "title": "PIANOLOGIC",
+   "description": "10曲入りデジタルアルバム『PIANOLOGIC』は、繊細なタッチと緻密な構成で展開するピアノ音楽集。静寂と躍動、日常の風景や心象を映す短篇が連なり、リスナーをゆっくりとした時間の旅へ誘う。",
+   "price": 1200,
+   "paymentLink": "https://buy.stripe.com/8x2aEQaRb3lreZWbS3cwi33",
+   "url": ""
+  },
+  {
+   "id": "music-M02",
+   "title": "NOISE&NIRVANA 2",
+   "description": "『NOISE&NIRVANA 2』は轟音と静寂がせめぎ合う12曲のデジタルアルバム。粗密の層が重なり、ノイズの衝動と穏やかな余韻を交互に織り成す深い聴取体験を提示する。ドローン、加工されたギターや電子音が層を作り、反復的な構造が徐々に景色を変えていく。",
+   "price": 1000,
+   "paymentLink": "https://buy.stripe.com/cNi4gs8J39JPg40aNZcwi34",
+   "url": ""
+  },
+  {
+   "id": "music-M01",
+   "title": "NOISE&NIRVANA",
+   "description": "NOISE&NIRVANAの5曲入りデジタルアルバム。轟音のテクスチャと静謐な旋律が交錯し、破壊と再生を描く全5章。短尺ながら密度の高い音像が没入感を生み、エレクトロニカ的な鋭さとポストロック的な広がりを同時に持つ。デジタルならではの空間表現が際立つ作品。",
+   "price": 800,
+   "paymentLink": "https://buy.stripe.com/14A4gs2kF09f1966xJcwi35",
+   "url": ""
+  },
+  {
+   "id": "music-M04",
+   "title": "NEVERMIND PLAN 2",
+   "description": "NEVERMIND PLAN 2は、6曲入りデジタルアルバム。静と動が揺らぐサウンドが夜明けの輪郭と影を繊細に描く。アンビエントなテクスチャーと切ないメロディが交差し、短い旅程で深い余韻を残す。",
+   "price": 1000,
+   "paymentLink": "https://buy.stripe.com/bJe4gs5wRe05g407BNcwi36",
+   "url": ""
+  },
+  {
+   "id": "music-M03",
+   "title": "NEVERMIND PLAN",
+   "description": "NEVERMIND PLANの5曲入りデジタルアルバム。夜明け前の静寂と疾走感を行き来する音像が特徴で、エレクトロとギターが織り成す短篇集。通勤や集中時間に寄り添う一枚。穏やかな歌声と加工されたサウンドが交差し、都会の朝や夜の余韻に馴染む構成です。",
+   "price": 800,
+   "paymentLink": "https://buy.stripe.com/aFacMY5wRcW1052g8jcwi37",
+   "url": ""
+  },
+  {
+   "id": "music-M06",
+   "title": "CHECKMATE",
+   "description": "静と動の境界を探る5曲入りデジタルアルバム。ミニマルなアレンジと緻密なサウンドデザインが、揺らぐ感情と短い瞬間を切り取る。各曲が異なる視点で繋がり、静謐さと緊張感が交錯する物語を描く。",
+   "price": 900,
+   "paymentLink": "https://buy.stripe.com/8x28wI8J3g8daJGe0bcwi38",
+   "url": ""
+  },
+  {
+   "id": "music-M05",
+   "title": "8 GRAVES",
+   "description": "8 GRAVESは8曲で綴る暗く静かな物語。沈んだメロディと象徴的なサウンドが、喪失と追憶を静かに描き出す。デジタル配信限定の全8曲が、夜と孤独に寄り添う音像を紡ぐ。緻密なアレンジと抑制の利いた演奏が、象徴的な歌詞と溶け合い、反芻するように心へ残る。",
+   "price": 1200,
+   "paymentLink": "https://buy.stripe.com/aFa7sE6AV6xD8By7BNcwi39",
+   "url": ""
+  },
+  {
+   "id": "departure",
+   "title": "Departure（メディアアート）",
+   "description": "ピアノ曲を空間・動き・光に変換するメディアアート作品。無料で体験できます。",
+   "price": 0,
+   "paymentLink": "",
+   "url": "https://weno-29.github.io/media-artwork/"
+  }
+ ]
 }
