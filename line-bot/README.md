@@ -16,7 +16,7 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 
 ## セットアップ（初回のみ）
 1. LINE Developers で上記チャネルの **チャネルシークレット** と **チャネルアクセストークン（長期）** を取得（チャットに貼らず、環境変数／ホスティング側のシークレットに設定）
-2. LINE Official Account Manager で **アカウント名を「コネクティングドット事務所」に変更**。応答設定: Webhook オン／あいさつ・応答メッセージ オフ
+2. アカウントは旧「コネクティングドット音楽事務所」を改名して使用（名前変更は済み）。LINE Official Account Manager の応答設定で Webhook オン／あいさつ・応答メッセージ オフ。チャネルID・ユーザーIDが改名後のこのアカウントのものか確認
 3. `cp .env.example .env` に値を入れ、`npm install`
 4. 公開サーバー（Render / Railway / Fly.io 等）で `npm start`。LINE Developers の Webhook URL に `https://<ドメイン>/webhook` を設定して「検証」
 5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除）
