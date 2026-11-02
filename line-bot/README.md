@@ -42,7 +42,7 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 - **ボットは Render で公開済み**: `https://connecting-dots-line-bit.onrender.com`（Webhook: `/webhook`、監視用: `/healthz`）。LINE側のWebhook URLも設定・疎通テスト済み
 - **リッチメニューはLINEに反映済み**（`connecting-dots-v2`、8エリア、既定メニュー）
 - LINE Developers の「Webhookの利用」トグルはAPIから変更できないため手動でオンにする
-- Stripe本番で作成済みのPayment Linkは132本中**36本**（書籍29・音楽7）。残り96本は未作成で「準備中」表示
+- **Stripe本番のPayment Link 132本（書籍125・音楽7）をすべて作成済み**。価格は商品メタデータの `original_price_jpy` どおり。Stripe側と全件照合済み（URL・金額・商品の不一致0、重複0）。リンクのメタデータは `purpose: line-bot-2026-11`
 - 紹介文は Stripe の商品説明が元（`summarySource: "stripe-description"`）。原稿から書き起こした「へぇ」ポイントは未作成
 - 表紙画像は未設定（`cover` が空。https の公開URLが入れば自動で表示）
 - **購入後の受け渡し（ダウンロード案内）は未設計**。Payment Link だけでは本は届かない
