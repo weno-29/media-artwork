@@ -17,11 +17,31 @@ const clip = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + "…" : s || "")
 
 export const text = (t) => ({ type: "text", text: t });
 
-const buyAction = (item) => ({
-  type: "uri",
-  label: clip(`購入する ${item.price ? yen(item.price) : ""}`.trim(), 20),
-  uri: item.paymentLink,
-});
+// 購入者のLINEユーザーIDをStripeの購入記録に引き継ぐ（購入後にその人だけへファイルを送るため）
+const withUid = (url, uid) => (uid ? `${url}${url.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(uid)}` : url);
+const buyLabel = (item) => clip(`購入する ${item.price ? yen(item.price) : ""}`.trim(), 20);
+const buyAction = (item, uid) =>
+  uid
+    ? { type: "uri", label: buyLabel(item), uri: withUid(item.paymentLink, uid) }
+    : { type: "postback", label: buyLabel(item), data: `action=buy&id=${item.id}`, displayText: "購入する" };
+
+// 「購入する」を押した人に、その人専用の購入リンクを返す
+export function buyCard(item, uid) {
+  if (!isHttps(item?.paymentLink)) return text("この商品の購入リンクは準備中です。");
+  return {
+    type: "flex",
+    altText: `${item.title} の購入`,
+    contents: {
+      type: "bubble",
+      body: { type: "box", layout: "vertical", spacing: "sm", contents: [
+        { type: "text", text: item.title, weight: "bold", wrap: true },
+        ...(item.price ? [{ type: "text", text: yen(item.price), size: "sm" }] : []),
+        { type: "text", text: "お支払い後、このトークにダウンロードリンクが届きます。", size: "xs", color: "#666666", wrap: true },
+      ] },
+      footer: { type: "box", layout: "vertical", contents: [{ type: "button", style: "primary", color: INK, action: { type: "uri", label: buyLabel(item), uri: withUid(item.paymentLink, uid) } }] },
+    },
+  };
+}
 
 // カテゴリーの書籍一覧（ページ送り付き）
 export function categoryCarousel(books, catKey, page = 0) {
@@ -77,10 +97,10 @@ export function categoryCarousel(books, catKey, page = 0) {
 }
 
 // 書籍詳細（内容紹介→購入導線）
-export function bookDetail(b) {
+export function bookDetail(b, uid) {
   const footer = [];
   if (isHttps(b.paymentLink)) {
-    footer.push({ type: "button", style: "primary", color: INK, action: buyAction(b) });
+    footer.push({ type: "button", style: "primary", color: INK, action: buyAction(b, uid) });
   } else {
     footer.push({ type: "text", text: "購入リンクは準備中です", size: "xs", color: "#888888", align: "center" });
   }
@@ -114,7 +134,7 @@ export function bookDetail(b) {
   return { type: "flex", altText: `${b.title} の内容紹介`, contents: bubble };
 }
 
-export function musicList(tracks) {
+export function musicList(tracks, uid) {
   if (!tracks.length) return text("音楽は準備中です。");
   return {
     type: "flex",
@@ -122,7 +142,7 @@ export function musicList(tracks) {
     contents: {
       type: "carousel",
       contents: tracks.slice(0, 12).map((t) => {
-        const link = isHttps(t.paymentLink) ? { label: clip(`購入する ${yen(t.price)}`, 20), uri: t.paymentLink } : isHttps(t.url) ? { label: "聴く・観る", uri: t.url } : null;
+        const link = isHttps(t.paymentLink) ? buyAction(t, uid) : isHttps(t.url) ? { type: "uri", label: "聴く・観る", uri: t.url } : null;
         return {
           type: "bubble",
           size: "kilo",
@@ -137,7 +157,7 @@ export function musicList(tracks) {
           footer: {
             type: "box", layout: "vertical",
             contents: link
-              ? [{ type: "button", style: "primary", color: INK, action: { type: "uri", ...link } }]
+              ? [{ type: "button", style: "primary", color: INK, action: link }]
               : [{ type: "text", text: "準備中", size: "xs", color: "#888888", align: "center" }],
           },
         };

@@ -14,6 +14,12 @@ services:
         value: 22
       - key: ADMIN_USER_ID
         value: U07eff7d5cd4929153a1ec149c0a9a8a0
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: DELIVERY_FILES
+        sync: false
       - key: LINE_CHANNEL_SECRET
         sync: false
       - key: LINE_CHANNEL_ACCESS_TOKEN

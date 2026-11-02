@@ -34,6 +34,18 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 - 確認: `npm run broadcast -- --dry`（内容のみ）／`-- --admin`（運営者だけに送る）／`-- --all`（全員に送る・枠を消費）
 - 配信対象は `paymentLink` が入った商品のみ。Payment Linkを増やすと配信候補も増える
 
+## 購入後の受け渡し（期限付きダウンロード）
+1. 「購入する」ボタンのURLに、友だちのLINEユーザーIDを付ける（`?client_reference_id=`）。一斉配信など、IDがない場面では「購入する」→ その人専用のボタンを返信
+2. Stripeが決済完了を `POST /stripe/webhook` に通知（署名を検証）
+3. ボットが、購入者のLINEにだけ、期限付きリンク `/dl/<署名つきトークン>` を送る（既定: **72時間・3回まで**。`DOWNLOAD_TTL_HOURS` / `DOWNLOAD_MAX`）
+4. リンクを開くと、サーバーがDriveのファイルを取得して配信（ファイルのURLは購入者に見えない）
+- 期限は署名に入っているので、サーバーが再起動しても有効。回数はサーバー内で数えるため、再起動すると戻る（期限が本命の制限）
+- ファイルが未登録の本が買われたら、購入者へ「準備でき次第お送りします」、運営者へ【要対応】を通知
+- LINE経由でない購入（リンク直アクセス等）は、運営者に通知（自動では送らない）
+- 試験: `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt node scripts/test-delivery.mjs`（27項目）
+- **配信ファイルのID対応表は公開しない**: `private/delivery-files.json`（gitignore済み）か、Renderの環境変数 `DELIVERY_FILES`
+- 設定（Render）: `STRIPE_WEBHOOK_SECRET`（必須）、`DELIVERY_FILES`、`GOOGLE_SERVICE_ACCOUNT_JSON`（Driveのファイルを「制限付き」にする場合）
+
 ## 運用
 - Payment Link追加: `links.txt`（`item_id URL` を1行ずつ）を作り `node scripts/merge-links.mjs links.txt` → `npm run check`
 - JSONは再起動なしで反映される（リクエストごとに読込）
@@ -45,7 +57,7 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 - **Stripe本番のPayment Link 132本（書籍125・音楽7）をすべて作成済み**。価格は商品メタデータの `original_price_jpy` どおり。Stripe側と全件照合済み（URL・金額・商品の不一致0、重複0）。リンクのメタデータは `purpose: line-bot-2026-11`
 - 紹介文は Stripe の商品説明が元（`summarySource: "stripe-description"`）。原稿から書き起こした「へぇ」ポイントは未作成
 - 表紙画像は未設定（`cover` が空。https の公開URLが入れば自動で表示）
-- **購入後の受け渡し（ダウンロード案内）は未設計**。Payment Link だけでは本は届かない
+- **購入後の受け渡しは実装・試験済み（本番設定待ち）**。配信ファイルを登録した本から自動で届く（登録済み: 7冊 / 125冊）。Stripe Webhookの登録と、Renderの環境変数の設定が必要
 - 既存の旧リンク（`purpose: note-membership-2026-11`）は価格0円なので使わない
 
 ## 注意
