@@ -1,6 +1,6 @@
 import express from "express";
 import { readFileSync } from "node:fs";
-import { messagingApi, middleware } from "@line/bot-sdk";
+import { messagingApi, middleware, SignatureValidationFailed } from "@line/bot-sdk";
 import * as F from "./flex.js";
 
 const config = {
@@ -78,6 +78,13 @@ app.post("/webhook", middleware(config), async (req, res) => {
     console.error(e);
     res.sendStatus(500);
   }
+});
+
+// 署名不正は401（それ以外は500）
+app.use((err, req, res, next) => {
+  if (err instanceof SignatureValidationFailed) return res.sendStatus(401);
+  console.error(err);
+  res.sendStatus(500);
 });
 
 const port = process.env.PORT || 3000;

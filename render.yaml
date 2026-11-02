@@ -1,0 +1,20 @@
+# Render Blueprint: コネクティングドット事務所 LINEボット（無料プラン）
+services:
+  - type: web
+    name: connecting-dots-line-bot
+    runtime: node
+    plan: free
+    rootDir: line-bot
+    branch: claude/line-bot-connecting-dots
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: ADMIN_USER_ID
+        value: U07eff7d5cd4929153a1ec149c0a9a8a0
+      - key: LINE_CHANNEL_SECRET
+        sync: false
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        sync: false

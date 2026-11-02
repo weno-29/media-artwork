@@ -19,7 +19,11 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 1. LINE Developers で上記チャネルの **チャネルシークレット** と **チャネルアクセストークン（長期）** を取得（チャットに貼らず、環境変数／ホスティング側のシークレットに設定）
 2. アカウントは旧「コネクティングドット音楽事務所」を改名して使用（名前変更は済み）。LINE Official Account Manager の応答設定で Webhook オン／あいさつ・応答メッセージ オフ。対象は旧「コネクティングドット音楽事務所」（改名後）のチャネル
 3. `cp .env.example .env` に値を入れ、`npm install`
-4. 公開サーバー（Render / Railway / Fly.io 等）で `npm start`。LINE Developers の Webhook URL に `https://<ドメイン>/webhook` を設定して「検証」
+4. **Renderで公開**（リポジトリ直下の `render.yaml` を使用。無料プラン）
+   1. https://render.com にGitHubでログイン → **New → Blueprint** → `weno-29/media-artwork` を選ぶ
+   2. 入力欄に `LINE_CHANNEL_SECRET` と `LINE_CHANNEL_ACCESS_TOKEN` を入れて **Apply**
+   3. 公開URL（`https://connecting-dots-line-bot.onrender.com` など）を確認し、LINE Developers の Webhook URL に `https://<そのURL>/webhook` を設定して「検証」→ Webhookの利用をオン
+   4. 無料プランは15分アクセスがないと停止し、次の最初の返信が遅れる（30〜60秒）。UptimeRobot（無料）で `https://<URL>/healthz` を5分おきに監視すると防げる
 5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除。画像はLINEの制限で1MB以下＝JPEG）
    - クラウド環境から実行する場合は `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt` を付ける（Node標準fetchはプロキシ設定を読まないため）
 
@@ -28,7 +32,7 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 - JSONは再起動なしで反映される（リクエストごとに読込）
 
 ## 現状と未完了（2026年11月2日時点）
-- **リッチメニューはLINEに反映済み**（`connecting-dots-v2`、8エリア、既定メニュー）。Webhookは未設定で、ボットは未公開
+- **リッチメニューはLINEに反映済み**（`connecting-dots-v2`、8エリア、既定メニュー）。Webhookは未設定で、ボットは未公開（`render.yaml` は用意済み。Renderでの公開待ち）
 - Stripe本番で作成済みのPayment Linkは132本中**36本**（書籍29・音楽7）。残り96本は未作成で「準備中」表示
 - 紹介文は Stripe の商品説明が元（`summarySource: "stripe-description"`）。原稿から書き起こした「へぇ」ポイントは未作成
 - 表紙画像は未設定（`cover` が空。https の公開URLが入れば自動で表示）
