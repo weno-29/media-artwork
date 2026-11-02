@@ -27,6 +27,13 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除。画像はLINEの制限で1MB以下＝JPEG）
    - クラウド環境から実行する場合は `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt` を付ける（Node標準fetchはプロキシ設定を読まないため）
 
+## 定期便（週1回）
+- 毎週**日曜 21:00（日本時間）**に、購入リンクのある本・音楽を1点ずつ、カテゴリーを順に回して全友だちへ配信（本2点ごとに音楽1点）。日本語タイトルのみが対象（翻訳版は除外）
+- 有効化: Render の Environment に `BROADCAST_ENABLED` = `true` を追加（未設定なら配信しない）。UptimeRobotで常時起動しておくこと
+- 今月の無料枠（月200通＝友だち数×配信回数）を使い切っていれば自動で送らない
+- 確認: `npm run broadcast -- --dry`（内容のみ）／`-- --admin`（運営者だけに送る）／`-- --all`（全員に送る・枠を消費）
+- 配信対象は `paymentLink` が入った商品のみ。Payment Linkを増やすと配信候補も増える
+
 ## 運用
 - Payment Link追加: `links.txt`（`item_id URL` を1行ずつ）を作り `node scripts/merge-links.mjs links.txt` → `npm run check`
 - JSONは再起動なしで反映される（リクエストごとに読込）

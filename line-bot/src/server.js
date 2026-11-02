@@ -2,6 +2,7 @@ import express from "express";
 import { readFileSync } from "node:fs";
 import { messagingApi, middleware, SignatureValidationFailed } from "@line/bot-sdk";
 import * as F from "./flex.js";
+import { startScheduler } from "./broadcast.js";
 
 const config = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
@@ -89,3 +90,4 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on ${port}`));
+if (process.env.BROADCAST_ENABLED === "true") startScheduler(config.channelAccessToken);

@@ -9,7 +9,8 @@
     "richmenu:image": "node richmenu/make-image.mjs",
     "richmenu:deploy": "node richmenu/deploy.mjs",
     "book:import": "node scripts/import-book.mjs",
-    "check": "node scripts/validate-data.mjs"
+    "check": "node scripts/validate-data.mjs",
+    "broadcast": "node scripts/broadcast.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",
