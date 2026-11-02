@@ -1,5 +1,5 @@
 // リッチメニュー画像(2500x1686)を生成。Departureと同じ黒×淡青×シアンの配色。
-// 使い方: node richmenu/make-image.mjs  → richmenu/richmenu.png
+// 使い方: node richmenu/make-image.mjs  → richmenu/richmenu.jpg
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 const { chromium } = createRequire(import.meta.url)("playwright");
@@ -26,10 +26,10 @@ font-family:'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans',sans-serif;color:#
 ${cells.map(cell).join("")}
 </body></html>`;
 
-const out = fileURLToPath(new URL("./richmenu.png", import.meta.url));
+const out = fileURLToPath(new URL("./richmenu.jpg", import.meta.url));
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 2500, height: 1686 } });
 await p.setContent(html);
-await p.screenshot({ path: out });
+await p.screenshot({ path: out, type: "jpeg", quality: 90 }); // LINEの制限: 1MB以下
 await b.close();
 console.log("wrote", out);

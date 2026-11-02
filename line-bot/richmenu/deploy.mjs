@@ -9,11 +9,15 @@ const api = new messagingApi.MessagingApiClient({ channelAccessToken: token });
 const blob = new messagingApi.MessagingApiBlobClient({ channelAccessToken: token });
 
 const def = JSON.parse(readFileSync(new URL("./richmenu.json", import.meta.url), "utf8"));
-const img = readFileSync(new URL("./richmenu.png", import.meta.url));
+const img = readFileSync(new URL("./richmenu.jpg", import.meta.url));
 
 const { richMenus } = await api.getRichMenuList();
 const { richMenuId } = await api.createRichMenu(def);
-await blob.setRichMenuImage(richMenuId, new Blob([img], { type: "image/png" }));
+await blob.setRichMenuImage(richMenuId, new Blob([img], { type: "image/jpeg" }));
 await api.setDefaultRichMenu(richMenuId);
-for (const m of richMenus) await api.deleteRichMenu(m.richMenuId); // 旧メニュー(旧事務所名)を整理
-console.log("new default rich menu:", richMenuId, "/ deleted old:", richMenus.length);
+let deleted = 0;
+for (const m of richMenus) {
+  try { await api.deleteRichMenu(m.richMenuId); deleted++; } // 旧メニューを整理（失敗しても反映自体は完了している）
+  catch (e) { console.warn("旧メニューの削除に失敗:", m.richMenuId, e.message); }
+}
+console.log("new default rich menu:", richMenuId, "/ deleted old:", deleted, "of", richMenus.length);

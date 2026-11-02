@@ -20,13 +20,15 @@ Weno-29（上野ニッカ）の音楽と書籍の発信用。カテゴリーか�
 2. アカウントは旧「コネクティングドット音楽事務所」を改名して使用（名前変更は済み）。LINE Official Account Manager の応答設定で Webhook オン／あいさつ・応答メッセージ オフ。対象は旧「コネクティングドット音楽事務所」（改名後）のチャネル
 3. `cp .env.example .env` に値を入れ、`npm install`
 4. 公開サーバー（Render / Railway / Fly.io 等）で `npm start`。LINE Developers の Webhook URL に `https://<ドメイン>/webhook` を設定して「検証」
-5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除）
+5. リッチメニュー反映: `npm run richmenu:image` → `npm run richmenu:deploy`（旧メニューは自動削除。画像はLINEの制限で1MB以下＝JPEG）
+   - クラウド環境から実行する場合は `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt` を付ける（Node標準fetchはプロキシ設定を読まないため）
 
 ## 運用
 - Payment Link追加: `links.txt`（`item_id URL` を1行ずつ）を作り `node scripts/merge-links.mjs links.txt` → `npm run check`
 - JSONは再起動なしで反映される（リクエストごとに読込）
 
-## 現状と未完了（2025年11月時点）
+## 現状と未完了（2026年11月2日時点）
+- **リッチメニューはLINEに反映済み**（`connecting-dots-v2`、8エリア、既定メニュー）。Webhookは未設定で、ボットは未公開
 - Stripe本番で作成済みのPayment Linkは132本中**36本**（書籍29・音楽7）。残り96本は未作成で「準備中」表示
 - 紹介文は Stripe の商品説明が元（`summarySource: "stripe-description"`）。原稿から書き起こした「へぇ」ポイントは未作成
 - 表紙画像は未設定（`cover` が空。https の公開URLが入れば自動で表示）
