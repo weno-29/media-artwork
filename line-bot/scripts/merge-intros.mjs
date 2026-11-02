@@ -8,7 +8,7 @@ let n = 0;
 for (const b of db.books) {
   const x = intros[b.id];
   if (!x) continue;
-  Object.assign(b, { hook: x.hook, summary: x.summary, points: x.points ?? [], summarySource: "manuscript", driveFileId: x.driveFileId });
+  Object.assign(b, { hook: x.hook, summary: x.summary, points: x.points ?? [], summarySource: "manuscript" });
   if (x.category) b.category = x.category;
   n++;
 }
